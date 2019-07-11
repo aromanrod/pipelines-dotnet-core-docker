@@ -37,6 +37,15 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-
+  - job: script
+    steps:
+      - script: docker build -t $(dockerId)/$(imageName)
     # add options to this command to meet your needs
-    - script: docker build -t $(dockerId)/$(imageName)
+
+- stage: run
+  displayName: Run Container
+  jobs:
+  - job: script
+    steps:
+      - script: docker run -t $(dockerId)/$(imageName)
+    # add options to this command to meet your needs
